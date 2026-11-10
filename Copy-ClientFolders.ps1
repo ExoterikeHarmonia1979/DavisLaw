@@ -31,6 +31,12 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+# Install required modules only if missing.
+foreach ($m in 'PnP.PowerShell', 'ImportExcel') {
+  if (-not (Get-Module -ListAvailable $m)) { Install-Module $m -Scope CurrentUser -Force }
+}
+
 Import-Module ImportExcel
 
 # Fail before queueing anything if the sheet can't be saved later (e.g. open in Excel).
